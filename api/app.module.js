@@ -25,7 +25,15 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
-            mongoose_1.MongooseModule.forRoot(process.env.DATABASE_URL),
+            mongoose_1.MongooseModule.forRootAsync({
+                useFactory: async () => ({
+                    uri: process.env.DATABASE_URL,
+                    connectionOptions: {
+                        useNewUrlParser: true,
+                        useUnifiedTopology: true,
+                    },
+                }),
+            }),
             mongoose_1.MongooseModule.forFeature([{ name: email_schema_1.Email.name, schema: email_schema_1.EmailSchema }]),
         ],
         controllers: [app_controller_1.AppController, email_collector_controller_1.EmailCollectorController],
