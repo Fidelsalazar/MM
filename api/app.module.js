@@ -17,7 +17,6 @@ const email_collector_service_1 = require("./services/email-collector.service");
 const process = require("node:process");
 const config_1 = require("@nestjs/config");
 const video_module_1 = require("./modules/video/video.module");
-const firebase_module_1 = require("./modules/firebase/firebase.module");
 const supabase_strategy_1 = require("./modules/supabase-strategy");
 let AppModule = class AppModule {
 };
@@ -25,7 +24,6 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            firebase_module_1.FirebaseModule,
             supabase_strategy_1.SupabaseModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
