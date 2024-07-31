@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const crypto = require("crypto");
 const email_collector_service_1 = require("../../services/email-collector.service");
 const process = require("node:process");
+const supabase_service_1 = require("../../modules/supabase-strategy/supabase.service");
 let EmailCollectorController = class EmailCollectorController {
-    constructor(emailCollectorService) {
+    constructor(emailCollectorService, supabaseService) {
         this.emailCollectorService = emailCollectorService;
+        this.supabaseService = supabaseService;
         this.key = process.env.KEY;
         this.iv = process.env.IV;
     }
@@ -31,7 +33,7 @@ let EmailCollectorController = class EmailCollectorController {
             decrypted += decipher.final('utf8');
             console.log(decrypted);
             const email = decrypted;
-            await this.emailCollectorService.saveEmail(email);
+            await this.supabaseService.saveEmail(email);
             console.log(`Correo electrónico recibido: ${email}`);
             return { message: 'Correo electrónico recibido con éxito' };
         }
@@ -51,6 +53,7 @@ __decorate([
 ], EmailCollectorController.prototype, "receiveEmail", null);
 exports.EmailCollectorController = EmailCollectorController = __decorate([
     (0, common_1.Controller)('api/v1/email-colector'),
-    __metadata("design:paramtypes", [email_collector_service_1.EmailCollectorService])
+    __metadata("design:paramtypes", [email_collector_service_1.EmailCollectorService,
+        supabase_service_1.SupabaseService])
 ], EmailCollectorController);
 //# sourceMappingURL=email-collector.controller.js.map

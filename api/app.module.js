@@ -16,25 +16,23 @@ const email_schema_1 = require("./schemas/email.schema");
 const email_collector_service_1 = require("./services/email-collector.service");
 const process = require("node:process");
 const config_1 = require("@nestjs/config");
+const video_module_1 = require("./modules/video/video.module");
+const firebase_module_1 = require("./modules/firebase/firebase.module");
+const supabase_strategy_1 = require("./modules/supabase-strategy");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            firebase_module_1.FirebaseModule,
+            supabase_strategy_1.SupabaseModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
-            mongoose_1.MongooseModule.forRootAsync({
-                useFactory: async () => ({
-                    uri: process.env.DATABASE_URL,
-                    connectionOptions: {
-                        useNewUrlParser: true,
-                        useUnifiedTopology: true,
-                    },
-                }),
-            }),
+            mongoose_1.MongooseModule.forRoot(process.env.DATABASE_URL),
             mongoose_1.MongooseModule.forFeature([{ name: email_schema_1.Email.name, schema: email_schema_1.EmailSchema }]),
+            video_module_1.VideoModule,
         ],
         controllers: [app_controller_1.AppController, email_collector_controller_1.EmailCollectorController],
         providers: [app_service_1.AppService, email_collector_service_1.EmailCollectorService],
